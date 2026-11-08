@@ -30,11 +30,14 @@
     .wrap { width: min(1280px, 100% - 64px); margin-inline: auto; }
     .top { border-bottom: 1px solid var(--rule); }
     .top .wrap { display: flex; justify-content: space-between; align-items: center; min-height: 54px; gap: 12px; }
+    .top-actions { display: flex; align-items: center; gap: 12px; }
+    .language { border: 1px solid var(--rule); border-radius: 6px; background: var(--white); color: var(--green); font-size: .82rem; font-weight: 650; padding: 5px 9px; }
+    .language:hover { border-color: var(--green); }
     .brand { display: inline-flex; gap: 9px; align-items: center; font-size: .82rem; font-weight: 700; }
     .brand svg { width: 20px; height: 20px; stroke: var(--green); }
     .mono, code, .graph-value { font-family: Consolas, "Courier New", monospace; }
     .eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-    .top-note { color: var(--muted); font-size: .73rem; text-align: right; }
+    .top-note { color: var(--muted); font-size: .73rem; text-align: end; }
     .intro { padding: 26px 0 22px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
     .intro .eyebrow { color: var(--green); margin-bottom: 3px; }
     h1 { font-family: Georgia, serif; font-size: clamp(2.5rem, 5.1vw, 4.5rem); font-weight: 500; letter-spacing: -.055em; line-height: 1.02; }
@@ -57,7 +60,7 @@
     .board-top .mono { color: var(--fetch); font-size: .77rem; }
     .graph { display: block; width: 100%; max-height: 390px; min-height: 240px; }
     .legend { justify-content: flex-start; background: var(--board); border-top: 1px solid #476254; font-size: .76rem; color: var(--board-ink); }
-    .legend span { display: inline-flex; align-items: center; gap: 7px; }
+    .legend > span { display: inline-flex; align-items: center; gap: 7px; }
     .legend i { width: 14px; height: 3px; background: var(--line); }
     .node { cursor: pointer; outline: none; }
     .node .surface { fill: #1d3a31; stroke: #628477; stroke-width: 1.5; transition: stroke .15s, fill .15s; }
@@ -109,7 +112,7 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      text-align: left;
+      text-align: start;
       border: 1px solid var(--rule);
       border-radius: 6px;
       color: var(--ink);
@@ -122,12 +125,18 @@
     .timeline button[aria-current="step"] { border-color: var(--green); background: #e5eee4; }
     .notes { border-top: 1px solid var(--rule); margin-top: 17px; padding: 10px 0 18px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px 20px; color: var(--muted); font-size: .78rem; }
     a { color: var(--green); text-underline-offset: 3px; }
+    code { direction: ltr; unicode-bidi: isolate; }
+    .next-arrow { display: inline-block; }
+    :lang(ar) h1, :lang(ar) .inspect-section h2, :lang(ar) .top-note, .language[lang="ar"] { font-family: Tahoma, "Segoe UI", sans-serif; }
+    :lang(ar) h1 { font-size: clamp(2rem, 4.5vw, 3.65rem); line-height: 1.25; letter-spacing: 0; }
+    :lang(ar) .eyebrow { letter-spacing: 0; }
+    :lang(ar) .next-arrow { transform: scaleX(-1); }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
     @media (max-width: 840px) {
       .wrap { width: calc(100% - 36px); }
       .lab { grid-template-columns: 1fr; }
       .inspector { display: grid; grid-template-columns: 1fr 1fr; }
-      .inspect-section + .inspect-section { border-top: 0; border-left: 1px solid var(--rule); }
+      .inspect-section + .inspect-section { border-top: 0; border-inline-start: 1px solid var(--rule); }
     }
     @media (max-width: 520px) {
       .wrap { width: calc(100% - 24px); }
@@ -135,7 +144,8 @@
       .graph { min-height: 0; height: auto; }
       .board-top, .legend { padding-inline: 11px; }
       .inspector { grid-template-columns: 1fr; }
-      .inspect-section + .inspect-section { border-left: 0; border-top: 1px solid var(--rule); }
+      .inspect-section + .inspect-section { border-inline-start: 0; border-top: 1px solid var(--rule); }
+      .top-note { display: none; }
       .timeline button { display: grid; gap: 2px; padding-inline: 4px; font-size: .69rem; text-align: center; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -152,34 +162,37 @@
           <rect x="6" y="6" width="12" height="12" rx="2"/>
           <path d="M9 3v3m6-3v3M9 18v3m6-3v3M3 9h3m-3 6h3m12-6h3m-3 6h3m-11-3h4m-2-2v4"/>
         </svg>
-        <span>PIC18 Pipeline Lab</span>
+        <span data-i18n="brand">PIC18 Pipeline Lab</span>
       </div>
-      <p class="top-note mono">MICROCONTROLLER ARCHITECTURE</p>
+      <div class="top-actions">
+        <p class="top-note mono" data-i18n="architecture">MICROCONTROLLER ARCHITECTURE</p>
+        <button type="button" class="language" id="language" lang="ar">العربية</button>
+      </div>
     </div>
   </header>
 
   <main class="wrap">
     <div class="intro">
       <div class="intro-copy">
-        <p class="eyebrow">Interactive teaching model</p>
-        <h1>Inside the PIC18 pipeline</h1>
-        <p>Follow three instructions through four cycles. Watch the CPU fetch from Flash while it writes to RAM.</p>
+        <p class="eyebrow" data-i18n="model">Interactive teaching model</p>
+        <h1 data-i18n="heading">Inside the PIC18 pipeline</h1>
+        <p data-i18n="intro">Follow three instructions through four cycles. Watch the CPU fetch from Flash while it writes to RAM.</p>
       </div>
-      <div class="controls button-group" role="group" aria-label="Simulation controls">
-        <button type="button" id="reset" disabled>Reset</button>
-        <button type="button" id="previous" disabled>Previous</button>
+      <div class="controls button-group" role="group" aria-label="Simulation controls" data-i18n-label="controls">
+        <button type="button" id="reset" data-i18n="reset" disabled>Reset</button>
+        <button type="button" id="previous" data-i18n="previous" disabled>Previous</button>
         <button type="button" id="play">Play</button>
-        <button type="button" class="primary" id="next">Next cycle <span aria-hidden="true">→</span></button>
+        <button type="button" class="primary" id="next"><span data-i18n="next">Next cycle</span> <span class="next-arrow" aria-hidden="true">→</span></button>
       </div>
     </div>
 
     <div class="lab">
       <section class="board" aria-labelledby="map-title">
         <div class="board-top">
-          <h2 class="eyebrow" id="map-title">Signal map</h2>
-          <span class="mono" id="cycle-label">CYCLE 00 / 04</span>
+          <h2 class="eyebrow" id="map-title" data-i18n="map">Signal map</h2>
+          <span class="mono"><span data-i18n="cycle">CYCLE</span> <bdi dir="ltr" id="cycle-count">00 / 04</bdi></span>
         </div>
-        <svg class="graph" viewBox="0 0 700 378" aria-label="Interactive diagram of the PIC18 pipeline">
+        <svg class="graph" viewBox="0 0 700 378" direction="ltr" aria-label="Interactive diagram of the PIC18 pipeline" data-i18n-label="graph">
           <defs>
             <marker id="arrow" markerWidth="8" markerHeight="8" viewBox="0 0 8 8" refX="7" refY="4" orient="auto-start-reverse">
               <path d="M1 1l5 3-5 3" fill="none" stroke="context-stroke" stroke-width="1.3"/>
@@ -190,8 +203,8 @@
             <path class="edge data" id="ram-path" d="M425 180C462 171 487 145 526 136" marker-end="url(#arrow)"/>
             <path class="edge aux" id="pc-path" d="M160 270C127 238 117 208 117 180" marker-end="url(#arrow)"/>
             <path class="edge aux" id="wreg-path" d="M403 257C432 283 454 290 469 295" marker-end="url(#arrow)"/>
-            <text class="edge-label" x="224" y="141">Program bus</text>
-            <text class="edge-label" x="475" y="141">Data bus</text>
+            <text class="edge-label" x="224" y="141" data-i18n="programBus">Program bus</text>
+            <text class="edge-label" x="475" y="141" data-i18n="dataBus">Data bus</text>
             <circle class="packet" id="fetch-packet" r="7">
               <animateMotion dur=".7s" begin="indefinite" restart="always"><mpath href="#fetch-path"/></animateMotion>
               <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.84;1" dur=".7s" begin="indefinite"/>
@@ -226,31 +239,31 @@
             <text class="node-name" y="1">WREG</text><text class="graph-value" id="wreg-value" y="24">0x00</text>
           </g>
         </svg>
-        <div class="legend" aria-label="Signal colors">
-          <span><i style="--line: var(--fetch)"></i> Instruction fetch</span>
-          <span><i style="--line: var(--data)"></i> RAM access</span>
-          <span><i style="--line: #79968a"></i> Inactive connection</span>
+        <div class="legend" aria-label="Signal colors" data-i18n-label="legend">
+          <span><i style="--line: var(--fetch)"></i><span data-i18n="fetchSignal">Instruction fetch</span></span>
+          <span><i style="--line: var(--data)"></i><span data-i18n="ramSignal">RAM access</span></span>
+          <span><i style="--line: #79968a"></i><span data-i18n="inactiveSignal">Inactive connection</span></span>
         </div>
       </section>
 
-      <aside class="inspector" aria-label="Cycle and component details">
+      <aside class="inspector" aria-label="Cycle and component details" data-i18n-label="details">
         <section class="inspect-section" aria-labelledby="cycle-title">
-          <p class="eyebrow">Current cycle</p>
+          <p class="eyebrow" data-i18n="current">Current cycle</p>
           <h2 id="cycle-title">Ready to fetch</h2>
           <p class="description" id="cycle-description">Step forward or play the sequence to see how the two stages overlap.</p>
           <dl class="stages">
-            <div><dt>Fetch</dt><dd><code id="fetch-stage">—</code></dd></div>
-            <div><dt>Execute</dt><dd><code id="execute-stage">—</code></dd></div>
+            <div><dt data-i18n="fetch">Fetch</dt><dd><code id="fetch-stage">—</code></dd></div>
+            <div><dt data-i18n="execute">Execute</dt><dd><code id="execute-stage">—</code></dd></div>
           </dl>
         </section>
         <section class="inspect-section" aria-labelledby="node-title">
-          <p class="eyebrow">Inspect a component</p>
+          <p class="eyebrow" data-i18n="inspect">Inspect a component</p>
           <div class="inspect-heading">
             <h2 id="node-title">CPU</h2>
             <code class="readout" id="node-value">Idle</code>
           </div>
           <p class="description" id="node-description">The execute stage runs the instruction fetched during the previous cycle.</p>
-          <div class="node-picker" aria-label="Select a component">
+          <div class="node-picker" aria-label="Select a component" data-i18n-label="selectNode">
             <button type="button" data-node="flash" aria-pressed="false">Flash</button>
             <button type="button" data-node="cpu" aria-pressed="true">CPU</button>
             <button type="button" data-node="ram" aria-pressed="false">RAM</button>
@@ -262,19 +275,19 @@
     </div>
 
     <section class="timeline-section" aria-labelledby="timeline-title">
-      <h2 class="eyebrow" id="timeline-title">Instruction timeline</h2>
+      <h2 class="eyebrow" id="timeline-title" data-i18n="timeline">Instruction timeline</h2>
       <ol class="timeline">
-        <li><button type="button" data-cycle="0" aria-current="step"><span class="mono">00</span> Ready</button></li>
-        <li><button type="button" data-cycle="1"><span class="mono">01</span> First fetch</button></li>
-        <li><button type="button" data-cycle="2"><span class="mono">02</span> Load WREG</button></li>
-        <li><button type="button" data-cycle="3"><span class="mono">03</span> Two buses active</button></li>
-        <li><button type="button" data-cycle="4"><span class="mono">04</span> Increment RAM</button></li>
+        <li><button type="button" data-cycle="0" aria-current="step"><span class="mono">00</span> <span data-i18n="ready">Ready</span></button></li>
+        <li><button type="button" data-cycle="1"><span class="mono">01</span> <span data-i18n="firstFetch">First fetch</span></button></li>
+        <li><button type="button" data-cycle="2"><span class="mono">02</span> <span data-i18n="loadWreg">Load WREG</span></button></li>
+        <li><button type="button" data-cycle="3"><span class="mono">03</span> <span data-i18n="bothBuses">Two buses active</span></button></li>
+        <li><button type="button" data-cycle="4"><span class="mono">04</span> <span data-i18n="incrementRam">Increment RAM</span></button></li>
       </ol>
     </section>
     <p class="sr-only" id="announcement" role="status"></p>
     <footer class="notes">
-      <p>Values are shown after each instruction cycle. This model covers three single-word instructions.</p>
-      <a href="https://ww1.microchip.com/downloads/en/devicedoc/39564c.pdf">Microchip PIC18FXX2 datasheet ↗</a>
+      <p data-i18n="note">Values are shown after each instruction cycle. This model covers three single-word instructions.</p>
+      <a href="https://ww1.microchip.com/downloads/en/devicedoc/39564c.pdf" data-i18n="reference">Microchip PIC18FXX2 datasheet ↗</a>
     </footer>
   </main>
 
@@ -300,6 +313,54 @@
       ram: ['RAM', 'The data bus connects the CPU to file registers. This demo watches address 0x40.'],
       pc: ['Program counter', 'The PC tracks the next sequential byte address. It advances by two after each fetch in this example.'],
       wreg: ['WREG', 'The 8-bit working register receives the literal from MOVLW and supplies the value stored by MOVWF.']
+    };
+    const arabic = {
+      brand: 'مختبر خط أنابيب PIC18',
+      architecture: 'معمارية المتحكّمات الدقيقة',
+      model: 'محاكاة تعليمية تفاعلية',
+      heading: 'داخل خط أنابيب PIC18',
+      intro: 'تتبّع ثلاث تعليمات على مدى أربع دورات، ولاحظ كيف يجلب المعالج تعليمة من ذاكرة Flash بينما يكتب في ذاكرة RAM.',
+      controls: 'أدوات التحكّم بالمحاكاة',
+      reset: 'إعادة ضبط',
+      previous: 'السابق',
+      next: 'الدورة التالية',
+      map: 'خريطة الإشارات',
+      cycle: 'الدورة',
+      graph: 'رسم تفاعلي لخط أنابيب PIC18',
+      programBus: 'ناقل البرنامج',
+      dataBus: 'ناقل البيانات',
+      legend: 'ألوان الإشارات',
+      fetchSignal: 'جلب التعليمة',
+      ramSignal: 'الوصول إلى RAM',
+      inactiveSignal: 'مسار غير نشط',
+      details: 'تفاصيل الدورة والمكوّنات',
+      current: 'الدورة الحالية',
+      fetch: 'الجلب',
+      execute: 'التنفيذ',
+      inspect: 'استكشف أحد المكوّنات',
+      selectNode: 'اختيار مكوّن',
+      timeline: 'تسلسل دورات التعليمات',
+      ready: 'البدء',
+      firstFetch: 'الجلب الأول',
+      loadWreg: 'تحميل WREG',
+      bothBuses: 'الناقلان نشطان',
+      incrementRam: 'زيادة قيمة RAM',
+      note: 'تظهر القيم بعد انتهاء كل دورة تعليمة. يحاكي هذا النموذج ثلاث تعليمات، طول كل منها كلمة واحدة.',
+      reference: 'ورقة بيانات Microchip PIC18FXX2 ↗',
+      lessons: [
+        ['جاهز للجلب', 'انتقل إلى الدورة التالية أو شغّل التسلسل لتشاهد تداخل مرحلتَي الجلب والتنفيذ.'],
+        ['ملء خط الأنابيب', 'تُجلب التعليمة MOVLW من ذاكرة Flash، ولم تبدأ مرحلة التنفيذ بعد.'],
+        ['تحميل مسجّل WREG', 'تحمّل التعليمة MOVLW القيمة 0x25 في WREG، وفي الوقت نفسه تُجلب التعليمة MOVWF من Flash.'],
+        ['ناقلان في دورة واحدة', 'يكتب المعالج القيمة 0x25 في RAM، وفي الدورة نفسها يجلب التعليمة INCF من Flash عبر ناقل البرنامج المنفصل.'],
+        ['زيادة القيمة في RAM', 'تقرأ التعليمة INCF القيمة من العنوان 0x40 في RAM، وتزيدها بمقدار واحد، ثم تعيد كتابة 0x26. هنا تنتهي المحاكاة.']
+      ],
+      components: {
+        flash: ['ذاكرة البرنامج Flash', 'تخزّن تعليمات البرنامج. يجلب المعالج كل كلمة بطول 16 بت عبر ناقل البرنامج.'],
+        cpu: ['وحدة المعالجة CPU', 'تنفّذ التعليمة التي جُلبت في الدورة السابقة.'],
+        ram: ['ذاكرة البيانات RAM', 'يربط ناقل البيانات المعالج بمسجّلات ذاكرة البيانات. تتابع المحاكاة العنوان 0x40.'],
+        pc: ['عدّاد البرنامج PC', 'يشير إلى عنوان البايت التالي في تسلسل البرنامج. في هذا المثال، يتقدّم بمقدار بايتين بعد كل عملية جلب.'],
+        wreg: ['مسجّل العمل WREG', 'مسجّل بعرض 8 بت. يستقبل القيمة الثابتة من MOVLW، ثم يزوّد MOVWF بالقيمة المراد تخزينها.']
+      }
     };
     const byId = (id) => document.getElementById(id);
     const nodeControls = [...document.querySelectorAll('[data-node]')];
@@ -335,12 +396,53 @@
     let selected = 'cpu';
     let playTimer = null;
     let writeTimer = null;
+    let language = 'en';
+    const languageKey = 'pic18-pipeline-language';
+    const staticText = [...document.querySelectorAll('[data-i18n]')].map(
+      (element) => [element, element.dataset.i18n, element.textContent]
+    );
+    const staticLabels = [...document.querySelectorAll('[data-i18n-label]')].map(
+      (element) => [element, element.dataset.i18nLabel, element.getAttribute('aria-label')]
+    );
+    const isArabic = () => language === 'ar';
+    const componentCopy = () => isArabic() ? arabic.components : components;
+    const idleText = () => isArabic() ? 'خامل' : 'Idle';
+
+    function syncPlayLabel() {
+      const playing = playTimer !== null;
+      byId('play').textContent = isArabic()
+        ? (playing ? 'إيقاف مؤقت' : 'تشغيل')
+        : (playing ? 'Pause' : 'Play');
+    }
+
+    function setLanguage(value) {
+      language = value;
+      document.documentElement.lang = value;
+      document.documentElement.dir = isArabic() ? 'rtl' : 'ltr';
+      document.title = isArabic() ? arabic.brand : 'PIC18 Pipeline Lab';
+      const toggle = byId('language');
+      toggle.lang = isArabic() ? 'en' : 'ar';
+      toggle.textContent = isArabic() ? 'English' : 'العربية';
+
+      for (const [element, key, original] of staticText) {
+        element.textContent = isArabic() ? arabic[key] : original;
+      }
+      for (const [element, key, original] of staticLabels) {
+        element.setAttribute('aria-label', isArabic() ? arabic[key] : original);
+      }
+      for (const node of nodeControls.filter((element) => element.matches('g'))) {
+        const name = componentCopy()[node.dataset.node][0];
+        node.setAttribute('aria-label', (isArabic() ? 'عرض تفاصيل ' : 'Inspect ') + name);
+      }
+      syncPlayLabel();
+      renderCopy(frames[current]);
+    }
 
     function updateInspector(frame) {
-      const [name, description] = components[selected];
+      const [name, description] = componentCopy()[selected];
       const values = {
-        flash: frame.fetch ? hex(frame.address, 4) + ' · ' + frame.fetch.op : 'No fetch',
-        cpu: frame.execute?.op ?? 'Idle',
+        flash: frame.fetch ? hex(frame.address, 4) + ' · ' + frame.fetch.op : (isArabic() ? 'لا توجد عملية جلب' : 'No fetch'),
+        cpu: frame.execute?.op ?? idleText(),
         ram: 'RAM[0x40] = ' + hex(frame.ram),
         pc: hex(frame.pc, 4),
         wreg: hex(frame.wreg)
@@ -399,17 +501,23 @@
       }
     }
 
+    function renderCopy(frame) {
+      const [title, description] = (isArabic() ? arabic.lessons : lessons)[current];
+      byId('cycle-title').textContent = title;
+      byId('cycle-description').textContent = description;
+      byId('cpu-value').textContent = frame.execute?.op ?? idleText();
+      updateInspector(frame);
+      const cyclePrefix = isArabic() ? arabic.cycle : 'Cycle';
+      byId('announcement').textContent = cyclePrefix + ' ' + current + '. ' + title + '. ' + description;
+    }
+
     function render(index, animate = true) {
       current = index;
       const frame = frames[current];
-      const [title, description] = lessons[current];
-      byId('cycle-label').textContent = 'CYCLE ' + cycleNumber(current) + ' / ' + cycleNumber(finalCycle);
-      byId('cycle-title').textContent = title;
-      byId('cycle-description').textContent = description;
+      byId('cycle-count').textContent = cycleNumber(current) + ' / ' + cycleNumber(finalCycle);
       byId('fetch-stage').textContent = frame.fetch?.assembly ?? '—';
       byId('execute-stage').textContent = frame.execute?.assembly ?? '—';
       byId('flash-value').textContent = frame.fetch ? hex(frame.address, 4) : '—';
-      byId('cpu-value').textContent = frame.execute?.op ?? 'Idle';
       byId('ram-value').textContent = hex(frame.ram);
       byId('pc-value').textContent = hex(frame.pc, 4);
       byId('wreg-value').textContent = hex(frame.wreg);
@@ -421,14 +529,13 @@
         else button.removeAttribute('aria-current');
       }
       updateSignals(frame, animate);
-      updateInspector(frame);
-      byId('announcement').textContent = 'Cycle ' + current + '. ' + title + '. ' + description;
+      renderCopy(frame);
     }
 
     function stop() {
       clearInterval(playTimer);
       playTimer = null;
-      byId('play').textContent = 'Play';
+      syncPlayLabel();
     }
 
     function go(index) {
@@ -448,8 +555,8 @@
         return;
       }
       if (current === finalCycle) render(0, false);
-      byId('play').textContent = 'Pause';
       playTimer = setInterval(advance, 2100);
+      syncPlayLabel();
       advance();
     });
     byId('reset').addEventListener('click', () => go(0));
@@ -462,7 +569,7 @@
       function select() {
         selected = control.dataset.node;
         updateInspector(frames[current]);
-        byId('announcement').textContent = components[selected].join('. ');
+        byId('announcement').textContent = componentCopy()[selected].join('. ');
       }
       control.addEventListener('click', select);
       if (control.tagName.toLowerCase() === 'g') {
@@ -474,6 +581,21 @@
         });
       }
     }
+    byId('language').addEventListener('click', () => {
+      setLanguage(isArabic() ? 'en' : 'ar');
+      try {
+        localStorage.setItem(languageKey, language);
+      } catch {
+        // The language can still be changed when browser storage is disabled.
+      }
+    });
+    let savedLanguage;
+    try {
+      savedLanguage = localStorage.getItem(languageKey);
+    } catch {
+      // Use English if browser storage is unavailable.
+    }
+    setLanguage(savedLanguage === 'ar' ? 'ar' : 'en');
     render(0, false);
   </script>
 </body>
