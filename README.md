@@ -5,6 +5,7 @@
 ![HTML](https://img.shields.io/badge/built%20with-HTML%20%2B%20SVG%20%2B%20JS-orange)
 ![Offline](https://img.shields.io/badge/runs-offline-brightgreen)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
 An interactive teaching model of the PIC18 Harvard architecture. The signal map shows how the CPU can fetch an instruction from Flash and access RAM in the same instruction cycle.
 
@@ -33,3 +34,7 @@ Reference: [Microchip PIC18FXX2 data sheet](https://ww1.microchip.com/downloads/
 ## Contributing
 
 Ideas for more instructions (branches, `CALL`/`RETURN`, flushing the pipeline) are welcome. Open an issue or a pull request.
+
+## License
+
+[MIT](LICENSE)
